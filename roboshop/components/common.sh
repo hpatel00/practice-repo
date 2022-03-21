@@ -2,7 +2,7 @@
 
 Print() {
   echo -e "-----------------$1----------------" &>>$LOG_FILE
-  echo -e "\e[34m$1\e[0m"
+  echo -e "\e[36m$1\e[0m"
 }
 
 Check_Stat() {
