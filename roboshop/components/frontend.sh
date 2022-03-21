@@ -14,10 +14,10 @@ Print "Remove Prior Nginx Content"
 rm -rf /usr/share/nginx/html/* &>>$LOG_FILE
 Check_Stat $?
 
-cd /usr/share/nginx/html
+cd /usr/share/nginx/html/
 
 Print "Unzip Nginx Content"
-unzip /tmp/frontend.zip &>>$LOG_FILE && mv frontend-main/* . &>>$LOG_FILE && mv static/* . &>>$LOG_FILE
+unzip /tmp/frontend.zip &>>$LOG_FILE && mv frontend-main/* . &>>$LOG_FILE && mv static/* &>>$LOG_FILE .
 Check_Stat $?
 
 Print "Update RoboShop Configuration"
