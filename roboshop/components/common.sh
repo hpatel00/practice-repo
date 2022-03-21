@@ -8,6 +8,7 @@ Print() {
 Check_Stat() {
   if [ $? -ne 0 ]; then
     echo -e "\e[31mFAILURE\e[0m"
+    exit 2
   else
     echo -e "\e[32mSUCCESS\e[0m"
   fi
