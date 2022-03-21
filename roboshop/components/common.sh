@@ -1,7 +1,7 @@
 #!/bin/bash
 
 Print() {
-  echo -e "-----------------$1----------------" &>>$LOG_FILE
+  echo -e "-----------------$1----------------" &>>${LOG_FILE}
   echo -e "\e[36m$1\e[0m"
 }
 
@@ -41,7 +41,7 @@ APP_SETUP() {
   Check_Stat $?
 
   Print "Extract Application Content"
-  cd /home/${APP_USER} &>>${LOG_FILE} && unzip /tmp/${COMPONENT}.zip &>>${LOG_FILE} && mv ${COMPONENT}-main ${COMPONENT} &>>${LOG_FILE}
+  cd /home/${APP_USER} &>>${LOG_FILE} && unzip -o /tmp/${COMPONENT}.zip &>>${LOG_FILE} && mv ${COMPONENT}-main ${COMPONENT} &>>${LOG_FILE}
   Check_Stat $?
 }
 
@@ -72,17 +72,17 @@ SERVICE_SETUP() {
 
 NODEJS() {
   Print "Configure YUM Repos"
-  curl -fsSL https://rpm.nodesource.com/setup_lts.x | bash - &>>$LOG_FILE
+  curl -fsSL https://rpm.nodesource.com/setup_lts.x | bash - &>>${LOG_FILE}
   Check_Stat $?
 
   Print "Install NodeJS"
-  yum install nodejs gcc-c++ -y &>>$LOG_FILE
+  yum install nodejs gcc-c++ -y &>>${LOG_FILE}
   Check_Stat $?
 
   APP_SETUP
 
   Print "Install NodeJS Dependencies"
-  cd /home/roboshop/catalogue &>>${LOG_FILE} && npm install &>>${LOG_FILE}
+  cd /home/roboshop/${COMPONENT} &>>${LOG_FILE} && npm install &>>${LOG_FILE}
   Check_Stat $?
 
   SERVICE_SETUP
@@ -90,7 +90,7 @@ NODEJS() {
 
 MAVEN() {
   Print "Install Maven"
-  yum install maven -y &>>$LOG_FILE
+  yum install maven -y &>>${LOG_FILE}
   Check_Stat $?
 
   APP_SETUP
@@ -99,13 +99,13 @@ MAVEN() {
 
 PYTHON() {
   Print "Install Python"
-  yum install python36 gcc python3-devel -y &>>$LOG_FILE
+  yum install python36 gcc python3-devel -y &>>${LOG_FILE}
   Check_Stat $?
 
   APP_SETUP
 
   Print "Install Python Dependencies"
-  cd /home/${APP_USER}/payment && pip3 install -r requirements.txt &>>$LOG_FILE
+  cd /home/${APP_USER}/${COMPONENT} && pip3 install -r requirements.txt &>>${LOG_FILE}
   Check_Stat $?
 
   SERVICE_SETUP
