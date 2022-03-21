@@ -11,7 +11,7 @@ curl -s -L -o /tmp/frontend.zip "https://github.com/roboshop-devops-project/fron
 Check_Stat $?
 
 Print "Remove Prior Nginx Content"
-rm -rf /usr/share/nginx/html &>>$LOG_FILE
+rm -rf /usr/share/nginx/html/* &>>$LOG_FILE
 Check_Stat $?
 
 cd /usr/share/nginx/html
