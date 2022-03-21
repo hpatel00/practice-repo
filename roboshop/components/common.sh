@@ -2,14 +2,14 @@
 
 Print() {
   echo -e "-----------------$1----------------" &>>$LOG_FILE
-  echo -e "\[34m$1\e[0m"
+  echo -e "\e[34m$1\e[0m"
 }
 
 Check_Stat() {
   if [ $? -ne 0 ]; then
-    echo -e "\[31mFAILURE\e[0m"
+    echo -e "\e[31mFAILURE\e[0m"
   else
-    echo -e "\[32mSUCCESS\e[0m"
+    echo -e "\e[32mSUCCESS\e[0m"
   fi
 }
 
