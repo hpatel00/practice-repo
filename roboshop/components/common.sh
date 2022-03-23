@@ -94,6 +94,11 @@ MAVEN() {
   Check_Stat $?
 
   APP_SETUP
+
+  Print "Maven Packaging"
+  cd /home/${APP_USER}/${COMPONENT} && mvn clean package &>>${LOG_FILE} && mv target/shipping-1.0.jar shipping.jar &>>${LOG_FILE}
+  Check_Stat $?
+
   SERVICE_SETUP
 }
 
