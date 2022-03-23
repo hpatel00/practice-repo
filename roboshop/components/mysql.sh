@@ -24,16 +24,22 @@ if [ $? -ne 0 ]; then
   Check_Stat $?
 fi
 
-#&>>${LOG_FILE} && mysql_secure_installation &>>${LOG_FILE} &&
-#
-#Print "Download Database Schema"
-#curl -s -L -o /tmp/mysql.zip "https://github.com/roboshop-devops-project/mysql/archive/main.zip" &>>${LOG_FILE}
-#Check_Stat $?
-#
-#Print "Extract Database Schema"
-#cd /tmp && unzip mysql.zip &>>${LOG_FILE}
-#Check_Stat $?
-#
-#Print "Load Database Schema"
-#cd mysql-mainmysql && mysql -u root -pRoboShop@1 <shipping.sql &>>${LOG_FILE}
-#Check_Stat $?
+echo 'show plugins' | mysql -uroot -pRoboShop@1 2>>${LOG_FILE} | grep validate_password &>>${LOG_FILE}
+if [ $? -eq 0 ]; then
+  Print "Uninstall Password Validate Plugin"
+  echo 'uninstall plugin validate_password;' >tmp/pass-validate.sql
+  mysql --connect-expired-password -uroot -pRoboShop@1 <tmp/pass-validate.sql &>>${LOG_FILE}
+  Check_Stat $?
+fi
+
+Print "Download Database Schema"
+curl -s -L -o /tmp/mysql.zip "https://github.com/roboshop-devops-project/mysql/archive/main.zip" &>>${LOG_FILE}
+Check_Stat $?
+
+Print "Extract Database Schema"
+cd /tmp && unzip mysql.zip &>>${LOG_FILE}
+Check_Stat $?
+
+Print "Load Database Schema"
+cd mysql-mainmysql && mysql -u root -pRoboShop@1 <shipping.sql &>>${LOG_FILE}
+Check_Stat $?
