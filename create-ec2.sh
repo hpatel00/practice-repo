@@ -9,11 +9,11 @@ COMPONENT=$1
 
 CREATE_EC2() {
   aws ec2 run-instances \
-                      --image-id ${AMI_ID} \
-                      --instance-type t2.micro \
-                      --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=${COMPONENT}}]" \
-                      --instance-market-options "MarketType=spot,SpotOptions={SpotInstanceType=persistent,InstanceInterruptionBehavior=stop" \
-                      --security-group-ids ${SGID}
+        --image-id ${AMI_ID} \
+        --instance-type t2.micro \
+        --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=${COMPONENT}}]" \
+        --instance-market-options "MarketType=spot,SpotOptions={SpotInstanceType=persistent,InstanceInterruptionBehavior=stop}" \
+        --security-group-ids ${SGID}
 }
 
 AMI_ID=$(aws ec2 describe-images --filters "Name=name,Values=Centos-7-DevOps-Practice" | jq '.Images[].ImageId' | sed -e 's/"//g')
