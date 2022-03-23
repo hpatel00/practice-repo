@@ -17,7 +17,7 @@ CREATE_EC2() {
         --security-group-ids ${SGID} \
         | jq '.Instances[].PrivateIpAddress' | sed -e 's/"//g')
 
-  sed -e "s/COMPONENT/${COMPONENT}" -e "s/IPADDRESS/${PRIVATE_IP}" route53.json >/tmp/record.json
+  sed -e "s/COMPONENT/${COMPONENT}/" -e "s/IPADDRESS/${PRIVATE_IP}/" route53.json >/tmp/record.json
   aws route53 change-resource-record-sets --hosted-zone-id ${ZONE_ID} --change-batch file:///tmp/record.json | jq
 }
 
