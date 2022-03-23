@@ -1,7 +1,7 @@
 #!/bin/bash
 
-if [ -z $1 ]; then
-  echo "Input Machine Name is Needed"
+if [ -z "$1" ]; then
+  echo -e "\e[31mInput Machine Name is Needed\e[0m"
   exit 1
 fi
 
