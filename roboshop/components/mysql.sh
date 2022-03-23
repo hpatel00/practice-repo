@@ -3,7 +3,7 @@
 source components/common.sh
 
 Print "Configure YUM Repos"
-curl -s -L -o /etc/yum.repos.d/mysql.repo https://raw.githubusercontent.com/roboshop-devops-project/mysql/main/mysql.repo &>>${LOG_FILE}
+curl -F -s -L -o /etc/yum.repos.d/mysql.repo https://raw.githubusercontent.com/roboshop-devops-project/mysql/main/mysql.repo &>>${LOG_FILE}
 Check_Stat $?
 
 Print "Install MySQL"
