@@ -1,12 +1,10 @@
-#!/bin/bash
-
 Print() {
   echo -e "-----------------$1----------------" &>>${LOG_FILE}
   echo -e "\e[36m$1\e[0m"
 }
 
 Check_Stat() {
-  if [ $? -ne 0 ]; then
+  if [ $1 -ne 0 ]; then
     echo -e "\e[31mFAILURE\e[0m"
     exit 2
   else
@@ -37,7 +35,7 @@ APP_SETUP() {
   Check_Stat $?
 
   Print "Download Application Content"
-  curl -s -L -o /tmp/${COMPONENT}.zip "https://github.com/roboshop-devops-project/${COMPONENT}/archive/main.zip" &>>${LOG_FILE}
+  curl -f -s -L -o /tmp/${COMPONENT}.zip "https://github.com/roboshop-devops-project/${COMPONENT}/archive/main.zip" &>>${LOG_FILE}
   Check_Stat $?
 
   Print "Extract Application Content"
@@ -51,20 +49,20 @@ SERVICE_SETUP() {
   Check_Stat $?
 
   Print "Set Up SystemD File"
-  sed -i -e "s/MONGO_DNSNAME/mongodb.roboshop.internal/" \
-         -e "s/REDIS_ENDPOINT/redis.roboshop.internal/" \
-         -e "s/MONGO_ENDPOINT/mongodb.roboshop.internal/" \
-         -e "s/CATALOGUE_ENDPOINT/catalogue.roboshop.internal/" \
-         -e "s/CARTENDPOINT/cart.roboshop.internal/" \
-         -e "s/DBHOST/mysql.roboshop.internal/" \
-         -e "s/CARTHOST/cart.roboshop.internal/" \
-         -e "s/USERHOST/user.roboshop.internal/" \
-         -e "s/AMQPHOST/rabbitmq.roboshop.internal/" \
+  sed -i -e 's/MONGO_DNSNAME/mongodb.roboshop.internal/' \
+         -e 's/REDIS_ENDPOINT/redis.roboshop.internal/' \
+         -e 's/MONGO_ENDPOINT/mongodb.roboshop.internal/' \
+         -e 's/CATALOGUE_ENDPOINT/catalogue.roboshop.internal/' \
+         -e 's/CARTENDPOINT/cart.roboshop.internal/' \
+         -e 's/DBHOST/mysql.roboshop.internal/' \
+         -e 's/CARTHOST/cart.roboshop.internal/' \
+         -e 's/USERHOST/user.roboshop.internal/' \
+         -e 's/AMQPHOST/rabbitmq.roboshop.internal/' \
           /home/roboshop/${COMPONENT}/systemd.service &>>${LOG_FILE} && mv /home/${APP_USER}/${COMPONENT}/systemd.service /etc/systemd/system/${COMPONENT}.service &>>${LOG_FILE}
   Check_Stat $?
 
   Print "Restart ${COMPONENT} Service"
-  systemctl daemon-reload &>>${LOG_FILE} && systemctl enable ${COMPONENT} &>>${LOG_FILE} && systemctl restart ${COMPONENT} &>>${LOG_FILE}
+  systemctl daemon-reload &>>${LOG_FILE} && systemctl restart ${COMPONENT} &>>${LOG_FILE} && systemctl enable ${COMPONENT} &>>${LOG_FILE}
   Check_Stat $?
 }
 
