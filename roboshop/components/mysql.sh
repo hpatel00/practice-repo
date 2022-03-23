@@ -3,7 +3,7 @@
 source components/common.sh
 
 Print "Configure YUM Repos"
-curl -F -s -L -o /etc/yum.repos.d/mysql.repo https://raw.githubusercontent.com/roboshop-devops-project/mysql/main/mysql.repo &>>${LOG_FILE}
+curl -f -s -L -o /etc/yum.repos.d/mysql.repo https://raw.githubusercontent.com/roboshop-devops-project/mysql/main/mysql.repo &>>${LOG_FILE}
 Check_Stat $?
 
 Print "Install MySQL"
@@ -33,7 +33,7 @@ if [ $? -eq 0 ]; then
 fi
 
 Print "Download Database Schema"
-curl -F -s -L -o /tmp/mysql.zip "https://github.com/roboshop-devops-project/mysql/archive/main.zip" &>>${LOG_FILE}
+curl -f -s -L -o /tmp/mysql.zip "https://github.com/roboshop-devops-project/mysql/archive/main.zip" &>>${LOG_FILE}
 Check_Stat $?
 
 Print "Extract Database Schema"
