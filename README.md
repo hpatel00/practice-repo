@@ -1,1 +1,1 @@
-# practice-repo
+# shell-scripting
